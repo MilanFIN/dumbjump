@@ -4,7 +4,6 @@ import pygame
 import random
 from pygame.locals import * #inputtia varten
 import math #putoamisen pyoristusta varten
-import sys
 pygame.init()
 screen = pygame.display.set_mode((640,480))
 
@@ -37,6 +36,17 @@ class Peli():
 		self.__putoamisNopeus = 0
 		self.__elossa = True
 		self.__pisteet = 0.0
+		self.__karttojenMaara = 0
+		
+		sanakirja = {}
+		tiedosto = open("./kartat/peliasetukset.txt", "r")
+		for rivi in tiedosto:
+			x,y = rivi.split("=")
+			sanakirja[x] = y
+		try:
+			self.__karttojenMaara = int(sanakirja["kartat"])
+		except Exception:
+			pygame.QUIT()
 		
 		tiedosto = open("./kartat/kartta0.txt", "r")
 		rivit = tiedosto.read().splitlines()
@@ -63,8 +73,7 @@ class Peli():
 
 	def lataaSeuraava(self):
 		
-		luku = random.randint(1,6)
-		tiedosto = open("./kartat/kartta"+str(luku)+".txt", "r")
+		tiedosto = open("./kartat/kartta"+str(self.__karttojenMaara)+".txt", "r")
 		rivit = tiedosto.read().splitlines()
 		for i in range (len(rivit)):
 			merkit = list(rivit[i].strip())
