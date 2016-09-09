@@ -1,0 +1,3 @@
+kartat=6
+hyppynopeus=13
+putoamiskiihtyvyys=0.5

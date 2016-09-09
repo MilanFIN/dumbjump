@@ -4,6 +4,7 @@ import pygame
 import random
 from pygame.locals import * #inputtia varten
 import math #putoamisen pyoristusta varten
+import sys
 pygame.init()
 screen = pygame.display.set_mode((640,480))
 
@@ -30,8 +31,8 @@ class Peli():
 		self.__tulevatValkoiset = pygame.sprite.Group()
 		self.__pelaajanSpritet = pygame.sprite.Group()
 		#vaihdettavia# vaikuttavat hypyn ominaisuuksiin
-		self.__hyppyNopeus = 13
-		self.__putoamisKiihtyvyys = 0.5
+		#self.__hyppyNopeus = 13
+		#self.__putoamisKiihtyvyys = 0.5
 		#vaihdettavia# yllaolevat siis
 		self.__putoamisNopeus = 0
 		self.__elossa = True
@@ -39,14 +40,17 @@ class Peli():
 		self.__karttojenMaara = 0
 		
 		sanakirja = {}
-		tiedosto = open("./kartat/peliasetukset.txt", "r")
+		tiedosto = open("peliasetukset.txt", "r")
 		for rivi in tiedosto:
 			x,y = rivi.split("=")
 			sanakirja[x] = y
 		try:
 			self.__karttojenMaara = int(sanakirja["kartat"])
+			self.__hyppyNopeus = int(sanakirja["hyppynopeus"])
+			self.__putoamisKiihtyvyys = float(sanakirja["putoamiskiihtyvyys"])
+			
 		except Exception:
-			pygame.QUIT()
+			sys.exit(0)
 		
 		tiedosto = open("./kartat/kartta0.txt", "r")
 		rivit = tiedosto.read().splitlines()
@@ -72,8 +76,8 @@ class Peli():
 		
 
 	def lataaSeuraava(self):
-		
-		tiedosto = open("./kartat/kartta"+str(self.__karttojenMaara)+".txt", "r")
+		luku = random.randint(1,self.__karttojenMaara)
+		tiedosto = open("./kartat/kartta"+str(luku)+".txt", "r")
 		rivit = tiedosto.read().splitlines()
 		for i in range (len(rivit)):
 			merkit = list(rivit[i].strip())
