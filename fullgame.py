@@ -160,6 +160,7 @@ def main():
 		for event in events:
 			if event.type == pygame.QUIT:
 				pygame.quit()
+				return
 			keys = pygame.key.get_pressed()
 			if keys[K_SPACE]:
 				peli.hyppaa()
